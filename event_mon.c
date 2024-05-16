@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2014, Laird Connectivity
+Copyright (c) 2014, Ezurio
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
@@ -23,12 +23,12 @@ CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 #include <string.h>
 #include "sdc_sdk.h"
 
-#define LRD_BLD_NUMBER  "0.0.0.0"
+#define BLD_NUMBER  "0.0.0.0"
 
-#define LRD_EVENT_MON_VERSION_MAJOR 3
-#define LRD_EVENT_MON_VERSION_MINOR 5
-#define LRD_EVENT_MON_VERSION_REVISION 2
-#define LRD_EVENT_MON_VERSION_SUB_REVISION 2
+#define EVENT_MON_VERSION_MAJOR 3
+#define EVENT_MON_VERSION_MINOR 5
+#define EVENT_MON_VERSION_REVISION 2
+#define EVENT_MON_VERSION_SUB_REVISION 2
 
 #ifndef ARRAY_SIZE
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
@@ -120,14 +120,14 @@ static const char *roamNames[] = {
 	"SDC_E_REASON_UNSPECIFIED",
 };
 
-static const char *LRD_WF_EvtAuthStatusNames[] = {
+static const char *WF_EvtAuthStatusNames[] = {
 	"AUTH_STATUS_UNSPEC",
 	"AUTH_STARTED",
 	"AUTH_SUCCESS",
 	"AUTH_FAILURE",
 };
 
-static const char *LRD_WF_EvtAuthReasonNames[] = {
+static const char *WF_EvtAuthReasonNames[] = {
 	"AUTH_REASON_UNSPEC",
 	"AUTH_SERVER_NO_RESP",
 	"INVALID_CREDENTIALS",
@@ -139,7 +139,7 @@ static const char *LRD_WF_EvtAuthReasonNames[] = {
 	"CERT_FAILURE_REASON_UNSPECIFIED",
 };
 
-static const char *LRD_WF_EvtConStatusNames[] = {
+static const char *WF_EvtConStatusNames[] = {
 	"CON_STATUS_UNSPEC",
 	"NOT_CONNECTED",
 	"ASSOCIATING",
@@ -150,7 +150,7 @@ static const char *LRD_WF_EvtConStatusNames[] = {
 	"AUTH_ERROR",
 };
 
-static const char *LRD_WF_EvtDHCPStatusNames[] = {
+static const char *WF_EvtDHCPStatusNames[] = {
 	"DHCP_STATUS_UNSPEC",
 	"DECONFIG",
 	"REQUESTING",
@@ -163,13 +163,13 @@ static const char *LRD_WF_EvtDHCPStatusNames[] = {
 	"RELEASED",
 };
 
-static const char *LRD_WF_EvtDHCPReasonNames[] = {
+static const char *WF_EvtDHCPReasonNames[] = {
 	"DHCP_REASON_UNSPEC",
 	"IP_ADDRESS_SAME",
 	"IP_ADDRESS_DIFFERENT",
 };
 
-static const char *LRD_WF_EvtIntStatusNames[] = {
+static const char *WF_EvtIntStatusNames[] = {
 	"INT_STATUS_UNSPEC",
 	"LOST_COM_DRV",
 	"LOST_COM_KERN",
@@ -177,13 +177,13 @@ static const char *LRD_WF_EvtIntStatusNames[] = {
 	"LOST_COM_INJ",
 };
 
-static const char *LRD_WF_EvtIntReasonNames[] = {
+static const char *WF_EvtIntReasonNames[] = {
 	"INT_REASON_UNSPEC",
 	"COM_EXITED",
 	"COM_ERROR",
 };
 
-static const char *LRD_WF_EvtFwErrorReasonNames[] = {
+static const char *WF_EvtFwErrorReasonNames[] = {
 	"FW_ASSERT",
 	"FW_HB_RESP_FAILURE",
 	"FW_EP_FULL",
@@ -196,7 +196,7 @@ static const char *AUTHNames[] = {
 };
 
 
-static void LRD_EVT_OutputString(const char *fmt, ...)
+static void EVT_OutputString(const char *fmt, ...)
 {
 	va_list arg_ptr;
 
@@ -321,73 +321,73 @@ static const char* cmderrorReasontoStr(SDC_ATH_CMDERROR_REASON reason)
 	}
 }
 
-static const char* authStatusToStr(LRD_WF_EvtAuthStatus status)
+static const char* authStatusToStr(WF_EvtAuthStatus status)
 {
-	if (status < ARRAY_SIZE(LRD_WF_EvtAuthStatusNames))
-		return LRD_WF_EvtAuthStatusNames[status];
+	if (status < ARRAY_SIZE(WF_EvtAuthStatusNames))
+		return WF_EvtAuthStatusNames[status];
 
 	snprintf(buffer, sizeof(buffer), "%d", status);
 	return buffer;
 }
 
-static const char* authReasonToStr(LRD_WF_EvtAuthReason reason)
+static const char* authReasonToStr(WF_EvtAuthReason reason)
 {
-	if (reason < ARRAY_SIZE(LRD_WF_EvtAuthReasonNames))
-		return LRD_WF_EvtAuthReasonNames[reason];
+	if (reason < ARRAY_SIZE(WF_EvtAuthReasonNames))
+		return WF_EvtAuthReasonNames[reason];
 
 	snprintf(buffer, sizeof(buffer), "%d", reason);
 	return buffer;
 }
 
-static const char* evtConStatusToStr(LRD_WF_EvtConStatus status)
+static const char* evtConStatusToStr(WF_EvtConStatus status)
 {
-	if (status < ARRAY_SIZE(LRD_WF_EvtConStatusNames))
-		return LRD_WF_EvtConStatusNames[status];
+	if (status < ARRAY_SIZE(WF_EvtConStatusNames))
+		return WF_EvtConStatusNames[status];
 
 	snprintf(buffer, sizeof(buffer), "%d", status);
 	return buffer;
 }
 
-static const char* dhcpStatusToStr(LRD_WF_EvtDHCPStatus status)
+static const char* dhcpStatusToStr(WF_EvtDHCPStatus status)
 {
-	if (status < ARRAY_SIZE(LRD_WF_EvtDHCPStatusNames))
-		return LRD_WF_EvtDHCPStatusNames[status];
+	if (status < ARRAY_SIZE(WF_EvtDHCPStatusNames))
+		return WF_EvtDHCPStatusNames[status];
 
 	snprintf(buffer, sizeof(buffer), "%d", status);
 	return buffer;
 }
 
-static const char* dhcpReasonToStr(LRD_WF_EvtDHCPReason reason)
+static const char* dhcpReasonToStr(WF_EvtDHCPReason reason)
 {
-	if (reason < ARRAY_SIZE(LRD_WF_EvtDHCPReasonNames))
-		return LRD_WF_EvtDHCPReasonNames[reason];
+	if (reason < ARRAY_SIZE(WF_EvtDHCPReasonNames))
+		return WF_EvtDHCPReasonNames[reason];
 
 	snprintf(buffer, sizeof(buffer), "%d", reason);
 	return buffer;
 }
 
-static const char* intStatusToStr(LRD_WF_EvtIntStatus status)
+static const char* intStatusToStr(WF_EvtIntStatus status)
 {
-	if (status < ARRAY_SIZE(LRD_WF_EvtIntStatusNames))
-		return LRD_WF_EvtIntStatusNames[status];
+	if (status < ARRAY_SIZE(WF_EvtIntStatusNames))
+		return WF_EvtIntStatusNames[status];
 
 	snprintf(buffer, sizeof(buffer), "%d", status);
 	return buffer;
 }
 
-static const char* intReasonToStr(LRD_WF_EvtIntReason reason)
+static const char* intReasonToStr(WF_EvtIntReason reason)
 {
-	if (reason < ARRAY_SIZE(LRD_WF_EvtIntReasonNames))
-		return LRD_WF_EvtIntReasonNames[reason];
+	if (reason < ARRAY_SIZE(WF_EvtIntReasonNames))
+		return WF_EvtIntReasonNames[reason];
 
 	snprintf(buffer, sizeof(buffer), "%d", reason);
 	return buffer;
 }
 
-static const char* fwErrReasonToStr(LRD_WF_EvtFwErrorReason reason)
+static const char* fwErrReasonToStr(WF_EvtFwErrorReason reason)
 {
-	if (reason < ARRAY_SIZE(LRD_WF_EvtFwErrorReasonNames))
-		return LRD_WF_EvtFwErrorReasonNames[reason];
+	if (reason < ARRAY_SIZE(WF_EvtFwErrorReasonNames))
+		return WF_EvtFwErrorReasonNames[reason];
 
 	snprintf(buffer, sizeof(buffer), "%d", reason);
 	return buffer;
@@ -412,18 +412,18 @@ static const char *ether_ntoa(const sdc_ether_addr *ea, char *buf)
 
 static void outputDHCPLease(const DHCP_LEASE *dhcp)
 {
-	LRD_EVT_OutputString("interface:    %s\n",  dhcp->interface);
-	LRD_EVT_OutputString("address:      %s\n",  dhcp->address);
-	LRD_EVT_OutputString("subnet_mask:  %s\n",  dhcp->subnet_mask);
-	LRD_EVT_OutputString("routers:      %s\n",  dhcp->routers);
-	LRD_EVT_OutputString("lease_time:   %ld\n", dhcp->lease_time);
-	LRD_EVT_OutputString("message_type: %d\n",  dhcp->message_type);
-	LRD_EVT_OutputString("dns_servers:  %s\n",  dhcp->dns_servers);
-	LRD_EVT_OutputString("dhcp_server:  %s\n",  dhcp->dhcp_server);
-	LRD_EVT_OutputString("domain_name:  %s\n",  dhcp->domain_name);
-	LRD_EVT_OutputString("renew:        %s\n",  dhcp->renew);
-	LRD_EVT_OutputString("rebind:       %s\n",  dhcp->rebind);
-	LRD_EVT_OutputString("expire:       %s\n",  dhcp->expire);
+	EVT_OutputString("interface:    %s\n",  dhcp->interface);
+	EVT_OutputString("address:      %s\n",  dhcp->address);
+	EVT_OutputString("subnet_mask:  %s\n",  dhcp->subnet_mask);
+	EVT_OutputString("routers:      %s\n",  dhcp->routers);
+	EVT_OutputString("lease_time:   %ld\n", dhcp->lease_time);
+	EVT_OutputString("message_type: %d\n",  dhcp->message_type);
+	EVT_OutputString("dns_servers:  %s\n",  dhcp->dns_servers);
+	EVT_OutputString("dhcp_server:  %s\n",  dhcp->dhcp_server);
+	EVT_OutputString("domain_name:  %s\n",  dhcp->domain_name);
+	EVT_OutputString("renew:        %s\n",  dhcp->renew);
+	EVT_OutputString("rebind:       %s\n",  dhcp->rebind);
+	EVT_OutputString("expire:       %s\n",  dhcp->expire);
 }
 
 static unsigned long long historic_bitmask = 0;
@@ -437,25 +437,25 @@ static SDCERR event_handler(unsigned long event_type, SDC_EVENT *event)
 	switch (event_type)
 	{
 	case SDC_E_CONNECT_REQ:
-		LRD_EVT_OutputString("Event: %s\t Auth type: %s\n", eventToStr(event_type),
+		EVT_OutputString("Event: %s\t Auth type: %s\n", eventToStr(event_type),
 		authModeToStr(event->auth_type));
 		break;
 	case SDC_E_ROAM:
-		LRD_EVT_OutputString("Event: %s\t status: %s\t Roam reason: %s\n", eventToStr(event_type),
+		EVT_OutputString("Event: %s\t status: %s\t Roam reason: %s\n", eventToStr(event_type),
 		statusToStr(event->status), roamReasonToStr(event->reason));
 		break;
 	case SDC_E_AUTH:
-		LRD_EVT_OutputString("Event: %s\t status: %s\t Auth reason: %s\n", eventToStr(event_type),
-		authStatusToStr((LRD_WF_EvtAuthStatus)event->status), authReasonToStr((LRD_WF_EvtAuthReason)event->reason));
+		EVT_OutputString("Event: %s\t status: %s\t Auth reason: %s\n", eventToStr(event_type),
+		authStatusToStr((WF_EvtAuthStatus)event->status), authReasonToStr((WF_EvtAuthReason)event->reason));
 		break;
 	case SDC_E_DISCONNECT:
 	case SDC_E_DISASSOC:
-		LRD_EVT_OutputString("Event: %s\t reason: %s\t 80211 reason: %s\n", eventToStr(event_type),
+		EVT_OutputString("Event: %s\t reason: %s\t 80211 reason: %s\n", eventToStr(event_type),
 		disconnectReasontoStr((SDC_ATH_DISCONNECT_REASON)event->status), w80211ReasonToStr(event->reason));
 		break;
 	case SDC_E_DHCP:
-		LRD_EVT_OutputString("Event: %s\t status: %s\t reason: %s\n", eventToStr(event_type),
-		dhcpStatusToStr((LRD_WF_EvtDHCPStatus)event->status), dhcpReasonToStr((LRD_WF_EvtDHCPReason)event->reason));
+		EVT_OutputString("Event: %s\t status: %s\t reason: %s\n", eventToStr(event_type),
+		dhcpStatusToStr((WF_EvtDHCPStatus)event->status), dhcpReasonToStr((WF_EvtDHCPReason)event->reason));
 		if (outputLease) {
 			switch (event->status)
 			{
@@ -463,7 +463,7 @@ static SDCERR event_handler(unsigned long event_type, SDC_EVENT *event)
 			case RENEWED:
 			case DECONFIG:
 			case RELEASED:
-				LRD_WF_GetDHCPLease(&dhcp);
+				WF_GetDHCPLease(&dhcp);
 				outputDHCPLease(&dhcp);
 				break;
 			default:
@@ -472,22 +472,22 @@ static SDCERR event_handler(unsigned long event_type, SDC_EVENT *event)
 		}
 		break;
 	case SDC_E_CMDERROR:
-		LRD_EVT_OutputString("Event: %s\t Error reason: %s\n", eventToStr(event_type),
+		EVT_OutputString("Event: %s\t Error reason: %s\n", eventToStr(event_type),
 		cmderrorReasontoStr((SDC_ATH_CMDERROR_REASON)event->reason));
 		break;
 	case SDC_E_CONNECTION_STATE:
-		LRD_EVT_OutputString("Event: %s\t status: %s\n", eventToStr(event_type),
-		evtConStatusToStr((LRD_WF_EvtConStatus)event->status));
+		EVT_OutputString("Event: %s\t status: %s\n", eventToStr(event_type),
+		evtConStatusToStr((WF_EvtConStatus)event->status));
 		switch (event->status)
 		{
 		case AUTHENTICATING:
 		case AUTHENTICATED:
 		case AUTH_ERROR:
-			LRD_EVT_OutputString("\tAuth reason: %s\t\n", authReasonToStr((LRD_WF_EvtAuthReason)event->reason));
+			EVT_OutputString("\tAuth reason: %s\t\n", authReasonToStr((WF_EvtAuthReason)event->reason));
 			break;
 		case ASSOC_ERROR:
 		case NOT_CONNECTED:
-			LRD_EVT_OutputString("\treason: %s\t 80211 reason: %s\n",
+			EVT_OutputString("\treason: %s\t 80211 reason: %s\n",
 			disconnectReasontoStr((SDC_ATH_DISCONNECT_REASON)event->reason), w80211ReasonToStr(event->auth_type));
 			break;
 		default:
@@ -495,30 +495,30 @@ static SDCERR event_handler(unsigned long event_type, SDC_EVENT *event)
 		}
 		break;
 	case SDC_E_INTERNAL:
-		LRD_EVT_OutputString("Event: %s\t status: %s\t reason: %s\n", eventToStr(event_type),
-		intStatusToStr((LRD_WF_EvtIntStatus)event->status), intReasonToStr((LRD_WF_EvtIntReason)event->reason));
+		EVT_OutputString("Event: %s\t status: %s\t reason: %s\n", eventToStr(event_type),
+		intStatusToStr((WF_EvtIntStatus)event->status), intReasonToStr((WF_EvtIntReason)event->reason));
 		break;
 	case SDC_E_FW_ERROR:
-		LRD_EVT_OutputString("Event: %s\t reason: %s\n", eventToStr(event_type),
-		fwErrReasonToStr((LRD_WF_EvtFwErrorReason)event->reason));
+		EVT_OutputString("Event: %s\t reason: %s\n", eventToStr(event_type),
+		fwErrReasonToStr((WF_EvtFwErrorReason)event->reason));
 		if (manager) { //only setup for fw_crash recovery if manager active
-			if (LRD_WF_SuppDisconnect() != SDCERR_SUCCESS)
-				LRD_EVT_OutputString("Failed to stop automatic reconnect after firmware crash\n");
+			if (WF_SuppDisconnect() != SDCERR_SUCCESS)
+				EVT_OutputString("Failed to stop automatic reconnect after firmware crash\n");
 			fw_crash = true;
 		}
 		break;
 	case SDC_E_READY:
-		LRD_EVT_OutputString("Event: %s\n", eventToStr(event_type));
+		EVT_OutputString("Event: %s\n", eventToStr(event_type));
 		if (fw_crash) {
-			if (LRD_WF_SuppReconfigure() != SDCERR_SUCCESS) {
-				if (LRD_WF_HostAPDRestart() != SDCERR_SUCCESS)
-					LRD_EVT_OutputString("Failed to start automatic reconnect after firmware recovery\n");
+			if (WF_SuppReconfigure() != SDCERR_SUCCESS) {
+				if (WF_HostAPDRestart() != SDCERR_SUCCESS)
+					EVT_OutputString("Failed to start automatic reconnect after firmware recovery\n");
 			}
 			fw_crash = false;
 		}
 		break;
 	default:
-		LRD_EVT_OutputString("Event: %s\n", eventToStr(event_type));
+		EVT_OutputString("Event: %s\n", eventToStr(event_type));
 		break;
 	}
 
@@ -528,13 +528,13 @@ static SDCERR event_handler(unsigned long event_type, SDC_EVENT *event)
 	    ea->octet[3] | ea->octet[4] | ea->octet[5])
 	{
 		ether_ntoa(ea, buffer);
-		LRD_EVT_OutputString("\tAP Mac address: %s\n", buffer);
+		EVT_OutputString("\tAP Mac address: %s\n", buffer);
 	}
 
 	return SDCERR_SUCCESS;
 }
 
-static SDCERR LRD_EVT_ParseTypes(char* string, unsigned long long *eventMask)
+static SDCERR EVT_ParseTypes(char* string, unsigned long long *eventMask)
 {
 	char *tok;
 
@@ -567,11 +567,11 @@ static SDCERR LRD_EVT_ParseTypes(char* string, unsigned long long *eventMask)
 
 static void usage(void)
 {
-	printf("Summit Event Monitor Version %s-%u.%u.%u.%u\n", LRD_BLD_NUMBER, LRD_EVENT_MON_VERSION_MAJOR, LRD_EVENT_MON_VERSION_MINOR, LRD_EVENT_MON_VERSION_REVISION, LRD_EVENT_MON_VERSION_SUB_REVISION);
+	printf("Summit Event Monitor Version %s-%u.%u.%u.%u\n", BLD_NUMBER, EVENT_MON_VERSION_MAJOR, EVENT_MON_VERSION_MINOR, EVENT_MON_VERSION_REVISION, EVENT_MON_VERSION_SUB_REVISION);
 	printf("Usage: event_mon [OPTIONS]\n");
-	printf("\nMonitor Events from the Laird WiFi subsystem\n");
+	printf("\nMonitor Events from the WiFi subsystem\n");
 	printf("\nOptions:\n\n");
-	printf("    --types,-t	 TYPE,TYPE,..    Specify the Laird event types separated by comma (SDC_E_AUTH,SDC_E_ROAM,...)\n");
+	printf("    --types,-t	 TYPE,TYPE,..    Specify the event types separated by comma (SDC_E_AUTH,SDC_E_ROAM,...)\n");
 	printf("                                 Default is all event types.\n");
 	printf("    --bitmask,-b MASK            Specify the event type bitmask directly (0x0000001FA3008000 or 0X0000001FA3008000)\n");
 	printf("                                 Only event types OR bitmask can specified.  Default is all event types.\n");
@@ -580,7 +580,7 @@ static void usage(void)
 	printf("                 both            Outputs to console and syslog\n");
 	printf("    --lease,-l                   Output current DHCP lease on BOUND, RENEWED, DECONFIG, and RELEASED\n");
 	printf("                                 Default is off\n");
-	printf("    --manager,-m                 Enable radio state manager.  This recovers the radio state on a firmware crash.\n");
+	printf("    --manager,-m                 Enable radio state manager. This recovers the radio state on a firmware crash.\n");
 	printf("    --help,-h                    Display this screen\n");
 }
 
@@ -589,17 +589,17 @@ static void dumpBitmaskAndExit(unsigned long long historic_mask)
 	unsigned long long mask;
 	unsigned i;
 
-	LRD_EVT_OutputString("Laird Event Monitor Exiting\n");
+	EVT_OutputString("Event Monitor Exiting\n");
 	if (!historic_mask) {
-		LRD_EVT_OutputString("No events reported\n");
+		EVT_OutputString("No events reported\n");
 		return;
 	}
-	LRD_EVT_OutputString("Bitmask of events which occurred: 0x%016llX\n", historic_mask);
-	LRD_EVT_OutputString("Events:\n");
+	EVT_OutputString("Bitmask of events which occurred: 0x%016llX\n", historic_mask);
+	EVT_OutputString("Events:\n");
 
 	for (mask = historic_mask, i = 0; mask; mask >>= 1, ++i) {
 		if (mask & 1)
-			LRD_EVT_OutputString("%s\n", eventToStr(i));
+			EVT_OutputString("%s\n", eventToStr(i));
 	}
 }
 
@@ -637,7 +637,7 @@ int main(int argc, char *argv[])
 				printf("Both bitmask and types arguments cannot be set\n");
 				return 1;
 			}
-			rc = LRD_EVT_ParseTypes(optarg, &eventMask);
+			rc = EVT_ParseTypes(optarg, &eventMask);
 			if (rc != SDCERR_SUCCESS) {
 				return 1;
 			}
@@ -681,22 +681,22 @@ int main(int argc, char *argv[])
 	if (logging)
 		openlog(NULL, LOG_PID | LOG_CONS, LOG_USER);
 
-	LRD_EVT_OutputString("Laird Event Monitor Version %s-%u.%u.%u.%u\n", LRD_BLD_NUMBER, LRD_EVENT_MON_VERSION_MAJOR,
-		LRD_EVENT_MON_VERSION_MINOR, LRD_EVENT_MON_VERSION_REVISION, LRD_EVENT_MON_VERSION_SUB_REVISION);
+	EVT_OutputString("Event Monitor Version %s-%u.%u.%u.%u\n", BLD_NUMBER, EVENT_MON_VERSION_MAJOR,
+		EVENT_MON_VERSION_MINOR, EVENT_MON_VERSION_REVISION, EVENT_MON_VERSION_SUB_REVISION);
 
 	if (eventMask == 0)
 		eventMask = 0xFFFFFFFFFFFFFFFF;
 
 	rc = SDCRegisterForEvents(eventMask, event_handler);
 	if (rc != SDCERR_SUCCESS) {
-		LRD_EVT_OutputString("Failed to Register for Events with rc (%d)\n", rc);
+		EVT_OutputString("Failed to Register for Events with rc (%d)\n", rc);
 		if (logging)
 			closelog();
 		return 1;
 	}
 
 	SDCRegisteredEventsList(&eventMask);
-	LRD_EVT_OutputString("Current Registered Bitmask 0x%016llX\n", eventMask);
+	EVT_OutputString("Current Registered Bitmask 0x%016llX\n", eventMask);
 
 	pause();
 
