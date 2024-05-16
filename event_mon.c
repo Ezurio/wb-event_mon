@@ -321,7 +321,7 @@ static const char* cmderrorReasontoStr(SDC_ATH_CMDERROR_REASON reason)
 	}
 }
 
-static const char* authStatusToStr(WF_EvtAuthStatus status)
+static const char* authStatusToStr(LRD_WF_EvtAuthStatus status)
 {
 	if (status < ARRAY_SIZE(WF_EvtAuthStatusNames))
 		return WF_EvtAuthStatusNames[status];
@@ -330,7 +330,7 @@ static const char* authStatusToStr(WF_EvtAuthStatus status)
 	return buffer;
 }
 
-static const char* authReasonToStr(WF_EvtAuthReason reason)
+static const char* authReasonToStr(LRD_WF_EvtAuthReason reason)
 {
 	if (reason < ARRAY_SIZE(WF_EvtAuthReasonNames))
 		return WF_EvtAuthReasonNames[reason];
@@ -339,7 +339,7 @@ static const char* authReasonToStr(WF_EvtAuthReason reason)
 	return buffer;
 }
 
-static const char* evtConStatusToStr(WF_EvtConStatus status)
+static const char* evtConStatusToStr(LRD_WF_EvtConStatus status)
 {
 	if (status < ARRAY_SIZE(WF_EvtConStatusNames))
 		return WF_EvtConStatusNames[status];
@@ -348,7 +348,7 @@ static const char* evtConStatusToStr(WF_EvtConStatus status)
 	return buffer;
 }
 
-static const char* dhcpStatusToStr(WF_EvtDHCPStatus status)
+static const char* dhcpStatusToStr(LRD_WF_EvtDHCPStatus status)
 {
 	if (status < ARRAY_SIZE(WF_EvtDHCPStatusNames))
 		return WF_EvtDHCPStatusNames[status];
@@ -357,7 +357,7 @@ static const char* dhcpStatusToStr(WF_EvtDHCPStatus status)
 	return buffer;
 }
 
-static const char* dhcpReasonToStr(WF_EvtDHCPReason reason)
+static const char* dhcpReasonToStr(LRD_WF_EvtDHCPReason reason)
 {
 	if (reason < ARRAY_SIZE(WF_EvtDHCPReasonNames))
 		return WF_EvtDHCPReasonNames[reason];
@@ -366,7 +366,7 @@ static const char* dhcpReasonToStr(WF_EvtDHCPReason reason)
 	return buffer;
 }
 
-static const char* intStatusToStr(WF_EvtIntStatus status)
+static const char* intStatusToStr(LRD_WF_EvtIntStatus status)
 {
 	if (status < ARRAY_SIZE(WF_EvtIntStatusNames))
 		return WF_EvtIntStatusNames[status];
@@ -375,7 +375,7 @@ static const char* intStatusToStr(WF_EvtIntStatus status)
 	return buffer;
 }
 
-static const char* intReasonToStr(WF_EvtIntReason reason)
+static const char* intReasonToStr(LRD_WF_EvtIntReason reason)
 {
 	if (reason < ARRAY_SIZE(WF_EvtIntReasonNames))
 		return WF_EvtIntReasonNames[reason];
@@ -384,7 +384,7 @@ static const char* intReasonToStr(WF_EvtIntReason reason)
 	return buffer;
 }
 
-static const char* fwErrReasonToStr(WF_EvtFwErrorReason reason)
+static const char* fwErrReasonToStr(LRD_WF_EvtFwErrorReason reason)
 {
 	if (reason < ARRAY_SIZE(WF_EvtFwErrorReasonNames))
 		return WF_EvtFwErrorReasonNames[reason];
@@ -446,7 +446,7 @@ static SDCERR event_handler(unsigned long event_type, SDC_EVENT *event)
 		break;
 	case SDC_E_AUTH:
 		EVT_OutputString("Event: %s\t status: %s\t Auth reason: %s\n", eventToStr(event_type),
-		authStatusToStr((WF_EvtAuthStatus)event->status), authReasonToStr((WF_EvtAuthReason)event->reason));
+		authStatusToStr((LRD_WF_EvtAuthStatus)event->status), authReasonToStr((LRD_WF_EvtAuthReason)event->reason));
 		break;
 	case SDC_E_DISCONNECT:
 	case SDC_E_DISASSOC:
@@ -455,7 +455,7 @@ static SDCERR event_handler(unsigned long event_type, SDC_EVENT *event)
 		break;
 	case SDC_E_DHCP:
 		EVT_OutputString("Event: %s\t status: %s\t reason: %s\n", eventToStr(event_type),
-		dhcpStatusToStr((WF_EvtDHCPStatus)event->status), dhcpReasonToStr((WF_EvtDHCPReason)event->reason));
+		dhcpStatusToStr((LRD_WF_EvtDHCPStatus)event->status), dhcpReasonToStr((LRD_WF_EvtDHCPReason)event->reason));
 		if (outputLease) {
 			switch (event->status)
 			{
@@ -463,7 +463,7 @@ static SDCERR event_handler(unsigned long event_type, SDC_EVENT *event)
 			case RENEWED:
 			case DECONFIG:
 			case RELEASED:
-				WF_GetDHCPLease(&dhcp);
+				LRD_WF_GetDHCPLease(&dhcp);
 				outputDHCPLease(&dhcp);
 				break;
 			default:
@@ -477,13 +477,13 @@ static SDCERR event_handler(unsigned long event_type, SDC_EVENT *event)
 		break;
 	case SDC_E_CONNECTION_STATE:
 		EVT_OutputString("Event: %s\t status: %s\n", eventToStr(event_type),
-		evtConStatusToStr((WF_EvtConStatus)event->status));
+		evtConStatusToStr((LRD_WF_EvtConStatus)event->status));
 		switch (event->status)
 		{
 		case AUTHENTICATING:
 		case AUTHENTICATED:
 		case AUTH_ERROR:
-			EVT_OutputString("\tAuth reason: %s\t\n", authReasonToStr((WF_EvtAuthReason)event->reason));
+			EVT_OutputString("\tAuth reason: %s\t\n", authReasonToStr((LRD_WF_EvtAuthReason)event->reason));
 			break;
 		case ASSOC_ERROR:
 		case NOT_CONNECTED:
@@ -496,13 +496,13 @@ static SDCERR event_handler(unsigned long event_type, SDC_EVENT *event)
 		break;
 	case SDC_E_INTERNAL:
 		EVT_OutputString("Event: %s\t status: %s\t reason: %s\n", eventToStr(event_type),
-		intStatusToStr((WF_EvtIntStatus)event->status), intReasonToStr((WF_EvtIntReason)event->reason));
+		intStatusToStr((LRD_WF_EvtIntStatus)event->status), intReasonToStr((LRD_WF_EvtIntReason)event->reason));
 		break;
 	case SDC_E_FW_ERROR:
 		EVT_OutputString("Event: %s\t reason: %s\n", eventToStr(event_type),
-		fwErrReasonToStr((WF_EvtFwErrorReason)event->reason));
+		fwErrReasonToStr((LRD_WF_EvtFwErrorReason)event->reason));
 		if (manager) { //only setup for fw_crash recovery if manager active
-			if (WF_SuppDisconnect() != SDCERR_SUCCESS)
+			if (LRD_WF_SuppDisconnect() != SDCERR_SUCCESS)
 				EVT_OutputString("Failed to stop automatic reconnect after firmware crash\n");
 			fw_crash = true;
 		}
@@ -510,8 +510,8 @@ static SDCERR event_handler(unsigned long event_type, SDC_EVENT *event)
 	case SDC_E_READY:
 		EVT_OutputString("Event: %s\n", eventToStr(event_type));
 		if (fw_crash) {
-			if (WF_SuppReconfigure() != SDCERR_SUCCESS) {
-				if (WF_HostAPDRestart() != SDCERR_SUCCESS)
+			if (LRD_WF_SuppReconfigure() != SDCERR_SUCCESS) {
+				if (LRD_WF_HostAPDRestart() != SDCERR_SUCCESS)
 					EVT_OutputString("Failed to start automatic reconnect after firmware recovery\n");
 			}
 			fw_crash = false;
