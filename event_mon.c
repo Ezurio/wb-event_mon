@@ -23,7 +23,7 @@ CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 #include <string.h>
 #include "sdc_sdk.h"
 
-#define BLD_NUMBER  "12.87.0.2"
+#define BLD_NUMBER  "12.87.0.10"
 
 #define EVENT_MON_VERSION_MAJOR 3
 #define EVENT_MON_VERSION_MINOR 5
